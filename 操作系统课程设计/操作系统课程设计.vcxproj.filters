@@ -27,12 +27,24 @@
     <ClInclude Include="PCB.h">
       <Filter>源文件</Filter>
     </ClInclude>
+    <ClInclude Include="Process.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Monitor.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Process.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
