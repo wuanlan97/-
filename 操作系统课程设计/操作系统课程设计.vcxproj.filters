@@ -24,17 +24,17 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="PCB.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
     <ClInclude Include="Process.h">
-      <Filter>源文件</Filter>
+      <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="System.h">
-      <Filter>源文件</Filter>
+    <ClInclude Include="PCB.h">
+      <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Monitor.h">
-      <Filter>源文件</Filter>
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +45,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Process.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="System.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
