@@ -1,10 +1,39 @@
 #pragma once
+#include<string>
+#define uint unsigned int
+using namespace std;
 typedef struct PCB
 {
-	char Pname[20];//进程名称
-	int ArriveTime;//到达时间
-	int StartTime;//开始时间
-	int FinishTime;//完成时间
-	int NeedTime;//需要服务时间
-	int Priority;//优先级
+	int PID;
+	string Pname;//进程名称
+	uint ArriveTime;//到达时间
+	uint StartTime;//开始时间
+	uint PlayTime;//已运行时间
+	uint FinishTime;//完成时间
+	uint NeedTime;//需要服务时间
+	uint Priority;//优先级，数值越高优先级越高
+	int status;//进程状态，0为未完成，1为已完成，-1为被杀死,-2为未初始化
+	PCB()//结构体初始化函数
+	{
+		Pname.clear();
+		ArriveTime = 0;
+		StartTime = 0;
+		PlayTime = 0;
+		FinishTime = 0;
+		NeedTime = 0;
+		Priority = 0;
+		status = -2;
+	}
+
+	PCB(PCB *temp)//结构体复制函数
+	{
+		Pname=temp->Pname;
+		ArriveTime = temp->ArriveTime;
+		StartTime = temp->StartTime;
+		PlayTime = temp->PlayTime;
+		FinishTime = temp->FinishTime;
+		NeedTime = temp->NeedTime;
+		Priority = temp->Priority;
+		status = temp->status;
+	}
 };
