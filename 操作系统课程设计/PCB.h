@@ -12,7 +12,7 @@ typedef struct PCB
 	uint FinishTime;//完成时间
 	uint NeedTime;//需要服务时间
 	uint Priority;//优先级，数值越高优先级越高
-	int status;//进程状态，0为未完成，1为已完成，-1为被杀死
+	int status;//进程状态，0为未完成，1为已完成，-1为被杀死,-2为未初始化
 	PCB()//结构体初始化函数
 	{
 		Pname.clear();
@@ -22,6 +22,7 @@ typedef struct PCB
 		FinishTime = 0;
 		NeedTime = 0;
 		Priority = 0;
+		status = -2;
 	}
 
 	PCB(PCB *temp)//结构体复制函数

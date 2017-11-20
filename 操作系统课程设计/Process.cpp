@@ -10,6 +10,7 @@ void Process::init(uint PID, string Pname, uint Needtime, uint Priority ,uint ti
 	Head->NeedTime = Needtime;
 	Head->Priority = Priority;
 	Head->ArriveTime = time;
+	Head->status = 0;
 }
 PCB Process::get()
 {
@@ -17,17 +18,19 @@ PCB Process::get()
 }
 Process::~Process()
 {
+	if (Head == NULL)return;
 	delete Head;
 	Head = NULL;
 }
 void Process::Kill()
 {
+	if (Head == NULL)return;
 	Head->status = -1;
 }
 int Process::Processor(uint time)
 {
 	//判断是否进程处于异常状态
-	if (Head->PID==0)return -2; //判断是否未初始化
+	if (Head == NULL)return -2;//判断是否未初始化
 	else if (Head->status!=0) return Head->status;
 
 	//进程开始运行
@@ -41,4 +44,6 @@ int Process::Processor(uint time)
 	}
 	return 0;
 }
+
+
 
