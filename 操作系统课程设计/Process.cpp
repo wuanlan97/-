@@ -34,14 +34,15 @@ int Process::Processor(uint time)
 	else if (Head->status!=0) return Head->status;
 
 	//进程开始运行
-	if (Head->StartTime == 0)Head->StartTime = time;
-	
+	if (Head->StartTime == 0) { Head->StartTime = time;return 0; }
+
 	if (++Head->PlayTime == Head->NeedTime)//判断进程是否已完成
 	{
 		Head->status = 1;
 		Head->FinishTime = time;
 		return 1;
 	}
+
 	return 0;
 }
 

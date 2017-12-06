@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithm.h" />
+    <ClInclude Include="get.h" />
     <ClInclude Include="PCB.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="stdafx.h" />
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="algorithm.cpp" />
+    <ClCompile Include="get.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="main.cpp" />
