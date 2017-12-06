@@ -1,4 +1,5 @@
 #include"System.h"
+#include"get.h"
 #include<list>
 #include<vector>
 #include<iostream>
@@ -18,12 +19,10 @@ void System::NewProcess()
 	Process *temp;
 
 	//输入进程信息
-	cout << "Pname=";
+	cout << "请输入进程名";
 	cin >> Pname;
-	cout << "Needtime=";
-	cin >> NeedTime;
-	cout << "Priority=";
-	cin >> Priority;
+	NeedTime = getint("请输入需服务时间");
+	Priority = getint("请输入优先级");
 
 	//创建进程并进入就绪队列
 	temp = new Process;
@@ -106,9 +105,8 @@ void System::init()
 
 bool System::SetMonitor()
 {
-	cout << "请输入选择的算法：\n1、先来先服务\n2、优先级\n3、短作业优先\n4、时间片轮转" << endl;
 	int temp;
-	cin >> temp;
+	temp = getint("请输入选择的算法：\n1、先来先服务\n2、优先级\n3、短作业优先\n4、时间片轮转");
 	if (temp > 0 && temp < 5) { algorithm = temp; return true; }
 	else { cout << "输入有误！" << endl; temp = 0; return false; }
 	
@@ -128,7 +126,7 @@ void System::PlayFirstProcess()
 	case 3:Ready.sort(SJF);break;
 	case 4:RR();break;
 	default:
-		cout << "调度错误" << endl;
+		cout << "未设置调度算法，调度失败" << endl;
 		return;
 		break;
 	}
@@ -143,6 +141,17 @@ void System::PlayFirstProcess()
 
 void System::print()
 {
+	cout << "当前系统时间：" << Time << endl;
+	cout << "当前调度算法：";
+	switch (algorithm)
+	{
+	case 1:cout << "先来先服务" << endl;break;
+	case 2:cout << "优先级" << endl;break;
+	case 3:cout << "短作业优先" << endl;break;
+	case 4:cout << "时间片轮转" << endl;break;
+	default:cout << "未设置" << endl;
+
+	}
 	cout << "处理机处理进程信息" << endl;
 	cout << "PID  名称   到达时间   开始时间   已运行时间   完成时间   需要服务时间   优先级    状态" << endl;
 	cout << "--------------------------------------------------------------------------------------" << endl;
@@ -221,12 +230,12 @@ void System::RR()
 System::~System()
 {
 	//释放就绪队列进程
-	for (list<Process*>::iterator i = Ready.begin();i != Ready.end(); i++)delete *i;
-	Ready.clear();
+	for (list<Process*>::iterator i = Ready.begin();i != Ready.end()&&!Ready.empty(); i++)delete *i;
+	if(!Ready.empty())Ready.clear();
 
 	//释放停止调度队列进程
-	for (list<Process*>::iterator i = Close.begin();i != Close.end(); i++)delete *i;
-	Close.clear();
+	for (list<Process*>::iterator i = Close.begin();i != Close.end()&&!Close.empty(); i++)delete *i;
+	if(!Close.empty())Close.clear();
 
 	//释放阻塞队列进程
 	for (vector<Process*>::iterator i = Block.begin();i != Block.end();i++)delete *i;
