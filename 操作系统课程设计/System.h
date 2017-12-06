@@ -17,7 +17,7 @@ private:
 	uint NextPID = 1;
 	uint Time = 1;
 	int algorithm;//调度方法
-	bool edit;
+	bool edit;//就绪队列修改标志
 public:
 	void NewProcess();//创建进程
 	void KillProcess(uint PID);//杀死进程
@@ -27,6 +27,7 @@ public:
 	bool SetMonitor();//设置算法
 	void PlayFirstProcess();//系统轮转函数
 	void print();//打印所有信息
+	void Evaluation();//算法评价模块（计算平均周转时间和平均等待时间）
 	~System();
 protected:
 	void PrintProcess(Process *temp);//打印进程信息

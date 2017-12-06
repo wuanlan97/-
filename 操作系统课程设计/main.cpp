@@ -15,7 +15,7 @@ int main()
 	while (1)
 	{
 		int in;
-		in=getint("0、退出\n1、创建进程\n2、杀死进程\n3、阻塞进程\n4、就绪进程\n5、设置调度算法\n6、运行一个时间片\n7、打印进程");
+		in=getint("0、退出\n1、创建进程\n2、杀死进程\n3、阻塞进程\n4、就绪进程\n5、设置调度算法\n6、打印评价指标\n7、运行一个时间片\n8、打印进程");
 		switch (in)
 		{
 		case 0:return 0;
@@ -24,8 +24,9 @@ int main()
 		case 3:s.BlockProcess();break;
 		case 4:s.ReadyProcess(getint("请输入在阻塞队列需要就绪进程的PID"));break;
 		case 5:s.SetMonitor();break;
-		case 6:s.PlayFirstProcess();
-		case 7:s.print();
+		case 6:s.Evaluation();break;
+		case 7:s.PlayFirstProcess();
+		case 8:s.print();
 		}
 	}
     return 0;

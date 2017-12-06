@@ -22,10 +22,16 @@ Process::~Process()
 	delete Head;
 	Head = NULL;
 }
-void Process::Kill()
+void Process::Kill(uint time)
 {
 	if (Head == NULL)return;
 	Head->status = -1;
+	Head->FinishTime = time;
+}
+uint Process::Wait(bool w)
+{
+	if (w)WaitTime++;
+	return WaitTime;
 }
 int Process::Processor(uint time)
 {

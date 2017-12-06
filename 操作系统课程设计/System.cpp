@@ -35,7 +35,7 @@ void System::KillProcess(uint PID)
 	//检查处理机进程是否为要杀死进程
 	if (Processor!=NULL && Processor->get().PID == PID)
 	{
-		Processor->Kill();
+		Processor->Kill(Time++);
 		Close.push_back(Processor);
 		Processor = NULL;
 		return;
@@ -45,7 +45,7 @@ void System::KillProcess(uint PID)
 	{
 		if ((*i)->get().PID == PID)
 		{
-			(*i)->Kill();
+			(*i)->Kill(Time++);
 			Close.push_back(*i);
 			i=Ready.erase(i);
 			return;
@@ -57,7 +57,7 @@ void System::KillProcess(uint PID)
 	{
 		if ((*i)->get().PID == PID)
 		{
-			(*i)->Kill();
+			(*i)->Kill(Time++);
 			Close.push_back(*i);
 			i = Block.erase(i);
 			return;
@@ -137,6 +137,8 @@ void System::PlayFirstProcess()
 	Processor->Processor(Time++);
 	Ready.pop_front();
 
+	for (list<Process*>::iterator i = Ready.begin();i != Ready.end() && !Ready.empty(); i++)//遍历就绪队列
+		(*i)->Wait();//进程等待时间+1
 }
 
 void System::print()
@@ -199,7 +201,22 @@ void System::PrintProcess(Process *temp=NULL)
 	}
 	
 }
+void System::Evaluation()
+{
+	if (Close.empty()) { cout << "没有完成的进程，无法评价" << endl;return; }
+	if (!Ready.empty() || !Block.empty() || Processor != NULL)cout << "未完成进程调度，数据可能不准确" << endl;
 
+	//计算平均周转时间
+	uint WaitTime = 0,RunTime=0;
+	for (list<Process*>::iterator i = Close.begin();i != Close.end() && !Close.empty(); i++)//遍历停止调度列表获取数据
+	{
+		WaitTime = (*i)->Wait(false);//获取进程等待时间总和
+		RunTime = (*i)->get().PlayTime;//获取进程运行时间总和
+	}
+	cout << "平均等待时间：" << (float)WaitTime /(float) Close.size()<<endl;
+	cout << "平均周转时间：" <<((float)WaitTime + (float)RunTime )/ (float)Close.size()<<endl;
+
+}
 void System::PrintList(list<Process*> *temp)
 {
 	for (list<Process*>::iterator i = temp->begin();i!=temp->end(); i++)
