@@ -27,8 +27,8 @@ void System::NewProcess()
 	//创建进程并进入就绪队列
 	temp = new Process;
 	temp->init(NextPID++, Pname, NeedTime, Priority, Time++);
-	WaitTimePlus();
 	Ready.push_back(temp);
+	WaitTimePlus();
 }
 
 void System::KillProcess(uint PID)
