@@ -28,6 +28,7 @@ void System::NewProcess()
 	temp = new Process;
 	temp->init(NextPID++, Pname, NeedTime, Priority, Time++);
 	Ready.push_back(temp);
+	WaitTimePlus();
 }
 
 void System::KillProcess(uint PID)
@@ -36,6 +37,7 @@ void System::KillProcess(uint PID)
 	if (Processor!=NULL && Processor->get().PID == PID)
 	{
 		Processor->Kill(Time++);
+		WaitTimePlus();
 		Close.push_back(Processor);
 		Processor = NULL;
 		return;
@@ -46,6 +48,7 @@ void System::KillProcess(uint PID)
 		if ((*i)->get().PID == PID)
 		{
 			(*i)->Kill(Time++);
+			WaitTimePlus();
 			Close.push_back(*i);
 			i=Ready.erase(i);
 			return;
@@ -58,6 +61,7 @@ void System::KillProcess(uint PID)
 		if ((*i)->get().PID == PID)
 		{
 			(*i)->Kill(Time++);
+			WaitTimePlus();
 			Close.push_back(*i);
 			i = Block.erase(i);
 			return;
@@ -114,9 +118,14 @@ bool System::SetMonitor()
 
 void System::PlayFirstProcess()
 {
+	
+	play:;
 	if(Processor != NULL )
-	if (Processor->get().status == 1)Close.push_back(Processor);//如果该进程已完成，则停止调度
-	else Ready.push_back(Processor);//未完成则插入就绪队列尾部
+	{
+		if (Processor->get().status == 1)Close.push_back(Processor);//如果该进程已完成，则停止调度
+		else Ready.push_back(Processor);//未完成则插入就绪队列尾部
+	}
+	
 	Processor = NULL;
 
 	switch (algorithm)
@@ -132,13 +141,12 @@ void System::PlayFirstProcess()
 	}
 
 	if (Ready.empty())return;//判空
-	//将就绪队列队首的进程送入处理机
-	Processor = *Ready.begin();
-	Processor->Processor(Time++);
-	Ready.pop_front();
-
-	for (list<Process*>::iterator i = Ready.begin();i != Ready.end() && !Ready.empty(); i++)//遍历就绪队列
-		(*i)->Wait();//进程等待时间+1
+	Processor = *Ready.begin();//将就绪队列队首的进程送入处理机
+	Ready.pop_front();//将就绪队列队首删除
+	if(Processor->Processor(Time)==1)goto play;
+	
+	Time++;
+	WaitTimePlus();
 }
 
 void System::print()
@@ -210,12 +218,17 @@ void System::Evaluation()
 	uint WaitTime = 0,RunTime=0;
 	for (list<Process*>::iterator i = Close.begin();i != Close.end() && !Close.empty(); i++)//遍历停止调度列表获取数据
 	{
-		WaitTime = (*i)->Wait(false);//获取进程等待时间总和
-		RunTime = (*i)->get().PlayTime;//获取进程运行时间总和
+		WaitTime += (*i)->Wait(false);//获取进程等待时间总和
+		RunTime += (*i)->get().PlayTime;//获取进程运行时间总和
 	}
 	cout << "平均等待时间：" << (float)WaitTime /(float) Close.size()<<endl;
 	cout << "平均周转时间：" <<((float)WaitTime + (float)RunTime )/ (float)Close.size()<<endl;
 
+}
+void System::WaitTimePlus()
+{
+	for (list<Process*>::iterator i = Ready.begin();i != Ready.end() && !Ready.empty(); i++)//遍历就绪队列
+		(*i)->Wait();//进程等待时间+1
 }
 void System::PrintList(list<Process*> *temp)
 {
