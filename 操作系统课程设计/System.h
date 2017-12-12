@@ -33,6 +33,6 @@ protected:
 	void PrintProcess(Process *temp);//打印进程信息
 	void PrintList(list<Process*> *temp);//打印list列表信息
 	void PrintVector(vector<Process*> *temp);//打印vector列表信息
-	
+	void WaitTimePlus();
 	void RR();//时间片轮转调度算法
 };
